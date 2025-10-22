@@ -11,20 +11,32 @@ Uso:
 Ejemplo:
     python calculadora_binaria.py 10100111 00001011
 """
-def pedir_binario():
-    if len(sys.argv) != 3:
-        print("Uso: 'nombre_del_archivo.py' <primer_número> <segundo_número>")
+def comprobacion_binario():
+    if len(sys.argv) < 3 or len(sys.argv) > 4:
+        print("Uso: 'nombre_del_archivo.py' <primer_número> [operador] <segundo_número>")
         sys.exit()
-    if len(sys.argv[1]) != 8 or len(sys.argv[2]) != 8:
-        print("Error. Los números binarios deben ser de 8 bits.")
-        sys.exit()
-    if sys.argv[1].replace("0","").replace("1","") != "":
-        print("Error. Por favor, introduzca el primer número binario de 8 bits (sólo 0 y 1) e inténtelo de nuevo")
-        sys.exit()
-    if sys.argv[2].replace("0","").replace("1","") != "":
-        print("Error. Por favor, introduzca un el segundo número binario de 8 bits (sólo 0 y 1) e inténtelo de nuevo.")
-        sys.exit()
-    return sys.argv[1], sys.argv[2]
+    if len(sys.argv) == 3:
+        if len(sys.argv[1]) != 8 or len(sys.argv[2]) != 8:
+            print("Error. Los números binarios deben ser de 8 bits.")
+            sys.exit()
+        if sys.argv[1].replace("0","").replace("1","") != "":
+            print("Error. Por favor, introduzca el primer número binario de 8 bits (sólo 0 y 1) e inténtelo de nuevo")
+            sys.exit()
+        if sys.argv[2].replace("0","").replace("1","") != "":
+            print("Error. Por favor, introduzca un el segundo número binario de 8 bits (sólo 0 y 1) e inténtelo de nuevo.")
+            sys.exit()
+        return sys.argv[1], sys.argv[2]
+    else: # Entra cuando el usuario introduce un operando.
+        if len(sys.argv[1]) != 8 or len(sys.argv[3]) != 8:
+            print("Error. Los números binarios deben ser de 8 bits.")
+            sys.exit()
+        if sys.argv[1].replace("0","").replace("1","") != "":
+            print("Error. Por favor, introduzca el primer número binario de 8 bits (sólo 0 y 1) e inténtelo de nuevo")
+            sys.exit()
+        if sys.argv[3].replace("0","").replace("1","") != "":
+            print("Error. Por favor, introduzca un el segundo número binario de 8 bits (sólo 0 y 1) e inténtelo de nuevo.")
+            sys.exit()    
+        return sys.argv[1], sys.argv[3]
 
 def suma_binaria(binario1,binario2):
     """
@@ -74,9 +86,11 @@ def suma_binaria(binario1,binario2):
                 acarreo[i - 1] = 1
     if acarreo[0] == 1:
         resultado_acarreo = [1] + resultado
-        print("El número binario es:","".join(map(str,resultado_acarreo)))
+        print("Suma:\t")
+        print("El resultado de sumar","".join(map(str,binario1)),"y","".join(map(str,binario2)),"es","".join(map(str,resultado_acarreo)))
     else: #La última suma sin arrastrar acarreo
-        print("El número binario es:","".join(map(str,resultado)))
+        print("Suma:\t")
+        print("El resultado de sumar","".join(map(str,binario1)),"y","".join(map(str,binario2)),"es","".join(map(str,resultado)))
         
 def resta_binaria(binario1,binario2):
     """
@@ -102,7 +116,7 @@ def resta_binaria(binario1,binario2):
     """
     
     while int(binario1,2) < int(binario2,2):
-        print("El primer número no puede ser más pequeño, vuelva a introducir el primer número correctamente.")
+        print("Error. Para restar, el primer número no puede ser más pequeño.")
         sys.exit()
     binario1 = list(map(int, binario1))
     binario2 = list(map(int, binario2))
@@ -115,24 +129,28 @@ def resta_binaria(binario1,binario2):
             acarreo = 0
         else:
             resultado[i] = 1
-            acarreo = 1    
-    print("El número binario es:","".join(map(str,resultado)))
+            acarreo = 1
+    print("Resta:\t")    
+    print("El resultado de restar","".join(map(str,binario1)),"y","".join(map(str,binario2)),"es","".join(map(str,resultado)))
+    
+def calcular_resultado(binario1,binario2):
+    if len(sys.argv) == 3:
+        suma_binaria(binario1,binario2)
+        print()
+        resta_binaria(binario1,binario2)
+    else: # Entra cuando el usuario introduce un operando.
+        eleccion = sys.argv[2]
+        if eleccion == "+":
+            suma_binaria(binario1,binario2)
+        elif eleccion == "-":
+            resta_binaria(binario1,binario2)
+        else:
+            print("Error. Los únicos operadores válidos son '+' y '-'.")
+            sys.exit()
         
 def main():
-    binario1,binario2 = pedir_binario()
-    print("Bienvenido a la calculadora binaria, introduzca '1' a continuación si deseas sumar o '2' si deseas restar.\n")
-    try:
-        eleccion = int(input())
-        if eleccion != 1 and eleccion != 2:
-            print("Error. Los únicos valores válidos son 1 o 2.")
-            sys.exit()
-        if eleccion == 1:
-            suma_binaria(binario1,binario2)
-        else: # Elección 2 (resta)
-            resta_binaria(binario1,binario2)
-    except ValueError:
-        print("Error. Los únicos valores válidos son 1 o 2.")
-        sys.exit()  
+    binario1,binario2 = comprobacion_binario()
+    calcular_resultado(binario1,binario2)  
              
 if __name__ == "__main__":
     main()
