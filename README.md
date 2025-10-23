@@ -1,6 +1,20 @@
 # Calculadora binaria de 8 bits en Python por consola.
 
-Aplicación de línea de comandos que permite **sumar** y **restar** números binarios de **1 a 8 bits**, en donde todas las salidas se muestran en **formato binario de 8 bits**, rellenando con ceros a la izquierda cuando sea necesario. Si no se especifica un operador, el programa ejecuta **ambas operaciones** (suma y resta).
+## Índice
+- [Descripción del módulo](#descripción-del-módulo)
+- [Requisitos del sistema](#requisitos-del-sistema)
+- [Instalación de Python](#instalación-de-python-en-los-diferentes-sistemas-operativos)
+- [Ejecución del módulo](#ejecución-del-módulo)
+- [Uso del archivo dependencias.txt](#uso-del-archivo-dependenciastxt-opcional)
+- [Validaciones y mensajes de error](#validaciones-y-mensajes-de-error)
+- [Problemas frecuentes (FAQ)](#problemas-frecuentes-faq)
+
+## Descripción del módulo
+
+Este proyecto consiste en una **calculadora binaria de 8 bits** que opera con números **enteros positivos**.  
+- Los **operandos** se introducen como **números binarios** de **1 a 8 dígitos** (`0` y `1`).  
+- La **operación** se elige mediante un **signo**: `+` (suma) o `-` (resta).  
+- Si no se proporciona signo, el programa ejecuta **ambas operaciones** y muestra los resultados en bloques separados.  
 
 **Uso**:
     
@@ -10,27 +24,19 @@ Aplicación de línea de comandos que permite **sumar** y **restar** números bi
 
 *Ambas operaciones*
 
-    python calculadora_binaria.py 10100111 00001011
+    python calculadora_binaria.py 101011 11
 *Suma*
 
-    python calculadora_binaria.py 10100111 + 00001011
+    python calculadora_binaria.py 10100111 + 101101
 *Resta*
 
-    python calculadora_binaria.py 10100111 - 00001011
-
-## Descripción del módulo
-
-Este proyecto consiste en una **calculadora binaria de 8 bits** que opera con números **enteros sin signo**.  
-- Los **operandos** se introducen como **números binarios** de **1 a 8 dígitos** (`0` y `1`).  
-- La **operación** se elige mediante un **signo**: `+` (suma) o `-` (resta).  
-- Si no se proporciona signo, el programa ejecuta **ambas operaciones** y muestra los resultados en bloques separados.  
-- Antes de realizar los cálculos, los operandos se **ajustan a 8 bits**, completándolos con ceros a la izquierda.
+    python calculadora_binaria.py 10100111 - 101111
 
 ## Requisitos del sistema
 
 - **Python 3.10 o superior**.  
 - **Se requiere la dependencia `pytest`.**  
-- Si en el futuro se añaden más librerías, se incluirán en el archivo **`dependecias.txt`** (véase sección 5).
+- Si en el futuro se añaden más librerías, se incluirán en el archivo **`dependecias.txt`** [(veáse sección 5)](#uso-del-archivo-dependenciastxt-opcional)
 
 ---
 
@@ -60,7 +66,7 @@ python --version
 python -m pip --version
 ```
 ***Recomendación:***
-Usar un entorno virtual, a continuación se muestra como instalarlo:
+Usar un entorno virtual, a continuación se muestra como instalarlo en un entorno Linux:
 ```bash
 pip install virtualenv
 virtualenv env
@@ -90,7 +96,7 @@ py --version
 py -m pip --version
 ```
 ***Recomendación:***
-Usar un entorno virtual, a continuación se muestra como instalarlo:
+Usar un entorno virtual, a continuación se muestra como instalarlo en Windows:
 ```cmd
 py -m venv .venv
 ..venv\Scripts\Activate.ps1
@@ -103,7 +109,7 @@ De la misma forma, cuando se desee desactivar el entorno virtual se indicará co
 
 ### Sintaxis general
 ```bash
-python calculadora_binaria.py OPERANDO1 [SIGNO] OPERANDO2
+python calculadora_binaria.py OPERANDO1 [OPERADOR] OPERANDO2
 ```
 En donde:
 
@@ -157,6 +163,8 @@ colorama==0.4.6
 ```
 ### Instalación de dependencias
 
+> Usa el intérprete para invocar `pip` y evitar confusiones con `pip`/`pip3`. 
+
 #### Linux/MacOS
 
 ```bash
@@ -174,3 +182,97 @@ Si el archivo **no existe** o está vacío, el proyecto **no necesita ninguna de
 ---
 
 ## Validaciones y mensajes de error
+
+
+- **Faltan argumentos o hay demasiados**  
+  Mensaje: `Uso: 'nombre_del_archivo.py' <primer_número> [operador] <segundo_número>`
+- **Operando inválido** (número binario menor 1 bit o mayor 8 bits)  
+  Mensaje: `Error. Los números binarios deben ser de 1 hasta 8 bits`  
+- **Signo/operación inválida** (distinta de `+` o `-`)  
+  Mensaje: `Error. Los únicos operadores válidos son '+' y '-'.".`  
+ **Primer número contiene caracteres no binarios** (`0` y `1` son los únicos válidos)  
+  Mensaje:`Error. Por favor, introduzca el primer número binario de 1 hasta 8 bits (sólo 0 y 1) e inténtelo de nuevo.`
+- **Segundo número contiene caracteres no binarios** (`0` y `1` son los únicos válidos)  
+  Mensaje: `Error. Por favor, introduzca el segundo número binario de 1 hasta 8 bits (sólo 0 y 1) e inténtelo de nuevo.`
+- **Error en la resta** (el primer número es menor que el segundo)  
+  Mensaje: `Error. Para restar, el primer número no puede ser más pequeño.`
+
+---
+
+## Problemas frecuentes (FAQ)
+
+- **“python: command not found” / “py no se reconoce”**  
+  Indica que Python no está instalado o no se ha añadido al **PATH** del sistema.  
+  **Solución:**  
+  - Verifica si Python está instalado ejecutando:  
+    ```
+    python3 --version
+    ```  
+  - Si funciona con `python3`, crea un alias para usar `python`:  
+    ```
+    sudo ln -s /usr/bin/python3 /usr/bin/python
+    ```  
+  - En **Windows**, asegúrate de marcar la opción **“Add Python to PATH”** durante la instalación.
+
+---
+
+- **“pip no se reconoce” / “pip: command not found”**  
+  Aparece cuando `pip` no está correctamente disponible o no se instaló con Python.  
+  **Solución:**  
+  - Ejecuta la instalación manual de paquetes con el intérprete:  
+    ```
+    python -m pip install nombre_paquete
+    ```  
+  - En **Windows**, usa:  
+    ```
+    py -m pip install nombre_paquete
+    ```  
+  - Si falla, reinstala `pip`:  
+    ```
+    python -m ensurepip --upgrade
+    ```
+
+---
+
+- **Formato de operando incorrecto**  
+  Se debe a valores que no son **binarios** válidos o que exceden los **8 bits** permitidos.  
+  **Solución:**  
+  - Asegúrate de introducir solo **0** y **1**.  
+  - Usa operandos de longitud entre **1** y **8 bits**.  
+  - Ejemplo válido:
+    ```
+    python calculadora_binaria.py 1101 + 101
+    ```
+
+---
+
+- **Signo en posición incorrecta o ausente**  
+  El error ocurre cuando el operador (`+` o `-`) está mal colocado o no se introduce.  
+  **Solución:**  
+  - Usa la sintaxis correcta:
+    ```
+    python calculadora_binaria.py <operando1> [signo] <operando2>
+    ```  
+  - Ejemplo correcto:
+    ```
+    python calculadora_binaria.py 101010 + 111
+    ```
+
+---
+
+- **“Error. Para restar, el primer número no puede ser más pequeño.”**  
+  Se produce cuando el segundo número binario es mayor que el primero.  
+  **Solución:**  
+  - Asegúrate de que el primer número sea **igual o mayor** que el segundo.  
+  - El programa no admite resultados negativos. Si necesitas eso, deberás implementar la resta en **complemento a dos**.
+
+---
+
+- **“Uso: 'nombre_del_archivo.py' <primer_número> [operador] <segundo_número>”**  
+  Indica que los argumentos pasados son **insuficientes o excesivos**.  
+  **Solución:**  
+  - Ejecuta el programa con exactamente **dos operandos** (y un operador opcional).  
+  - Ejemplo correcto:
+    ```
+    python calculadora_binaria.py 101 + 11
+    ```
