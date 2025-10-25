@@ -7,6 +7,7 @@
 - [Ejecución del módulo](#ejecución-del-módulo)
 - [Uso del archivo dependencias.txt](#uso-del-archivo-dependenciastxt-opcional)
 - [Validaciones y mensajes de error](#validaciones-y-mensajes-de-error)
+- [Tests](#tests)
 - [Problemas frecuentes (FAQ)](#problemas-frecuentes-faq)
 
 ## Descripción del módulo
@@ -36,7 +37,7 @@ Este proyecto consiste en una **calculadora binaria de 8 bits** que opera con n�
 
 - **Python 3.10 o superior**.  
 - **Se requiere la dependencia `pytest`.**  
-- Si en el futuro se añaden más librerías, se incluirán en el archivo **`dependecias.txt`** [(veáse sección 5)](#uso-del-archivo-dependenciastxt-opcional)
+- Si en el futuro se añaden más librerías, se incluirán en el archivo **`dependencias.txt`** [(véase sección 5)](#uso-del-archivo-dependenciastxt-opcional)
 
 ---
 
@@ -70,7 +71,7 @@ Usar un entorno virtual, a continuación se muestra como instalarlo en un entorn
 ```bash
 pip install virtualenv
 virtualenv env
-source . ./env/bin/activate
+source ./env/bin/activate
 ```
 En el caso de que se descargue el archivo `pytest.ini` en la raíz del proyecto no hace falta especificar `source`.
 
@@ -154,7 +155,7 @@ El resultado de restar *11111111* y *11111111* es *00000000*
 
 ## Uso del archivo `dependencias.txt` (opcional).
 
-Si el proyecto requiere librerías externas, deben especificarse en el archivo **`dependecias.txt`** (una por línea).  
+Si el proyecto requiere librerías externas, deben especificarse en el archivo **`dependencias.txt`** (una por línea).  
 Ejemplo de contenido:
 ```txt
 rich>=13.0
@@ -168,13 +169,13 @@ colorama==0.4.6
 #### Linux/MacOS
 
 ```bash
-python3 -m pip install -r dependecias.txt
+python3 -m pip install -r dependencias.txt
 ```
 
 #### Windows
 
 ```cmd
-py -m pip install -r dependecias.txt
+py -m pip install -r dependencias.txt
 ```
 
 Si el archivo **no existe** o está vacío, el proyecto **no necesita ninguna dependencia** adicional. Aunque en este caso es necesario la dependencia `pytest` para ejecutar los tests.
@@ -189,7 +190,7 @@ Si el archivo **no existe** o está vacío, el proyecto **no necesita ninguna de
 - **Operando inválido** (número binario menor 1 bit o mayor 8 bits)  
   Mensaje: `Error. Los números binarios deben ser de 1 hasta 8 bits`  
 - **Signo/operación inválida** (distinta de `+` o `-`)  
-  Mensaje: `Error. Los únicos operadores válidos son '+' y '-'.".`  
+  Mensaje: `Error. Los únicos operadores válidos son '+' y '-'."`  
  **Primer número contiene caracteres no binarios** (`0` y `1` son los únicos válidos)  
   Mensaje:`Error. Por favor, introduzca el primer número binario de 1 hasta 8 bits (sólo 0 y 1) e inténtelo de nuevo.`
 - **Segundo número contiene caracteres no binarios** (`0` y `1` son los únicos válidos)  
@@ -198,6 +199,47 @@ Si el archivo **no existe** o está vacío, el proyecto **no necesita ninguna de
   Mensaje: `Error. Para restar, el primer número no puede ser más pequeño.`
 
 ---
+
+## Tests
+
+Este proyecto incluye 38 tests implementados con la librería pytest, lo que garantiza la correcta funcionalidad de todas las operaciones y validaciones de la calculadora binaria.
+
+Los tests están organizados en categorías, cubriendo todos los casos posibles:
+
+| Categoría | Descripción | Ejemplos cubiertos |
+|------------|-------------|--------------------|
+|  **Operaciones válidas** | Comprueba sumas y restas correctas con operandos de 1 a 8 bits. | `10101010 + 01010101 → 11111111` |
+|  **Operandos inválidos** | Detecta números vacíos, con más de 8 bits o con caracteres no binarios. | `1021 + 1010` → Error |
+|  **Operadores inválidos** | Rechaza signos distintos de `+` o `-`. | `1010 * 0101` → Error |
+|  **Número incorrecto de argumentos** | Controla llamadas con argumentos insuficientes o excesivos. | `python calculadora_binaria.py 1010 +` |
+|  **Resta no permitida** | Verifica que el primer número no sea menor que el segundo en una resta. | `0001 - 1010` → Error |
+
+Todos los tests utilizan **parámetros a través de (`pytest.mark.parametrize`)**, lo que permite validar múltiples casos en una sola función de prueba.  
+Además, se emplean herramientas como **`monkeypatch`** y **`capsys`** para simular la entrada y capturar la salida por consola sin necesidad de interacción del usuario.
+
+### Ejecución de los tests
+
+Antes de ejecutar los tests, asegúrate de tener instalada la dependencia `pytest`.  
+Si seguiste la [guía de dependencias](#uso-del-archivo-dependenciastxt-opcional), ya la tendrás instalada.
+
+#### Ejecutar todos los tests desde la raíz del proyecto:
+```bash
+pytest
+```
+
+#### Mostrar solo el resultado resumido:
+```bash
+pytest -q
+```
+
+#### Mostrar detalles completos de cada test:
+```bash
+pytest -v
+``` 
+### Ejecutar un test concreto
+```bash
+pytest -k "test_nombre_test"
+```
 
 ## Problemas frecuentes (FAQ)
 

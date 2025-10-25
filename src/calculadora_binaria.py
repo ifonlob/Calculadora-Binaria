@@ -4,24 +4,25 @@ def comprobacion_binario():
         print("Uso: 'nombre_del_archivo.py' <primer_número> [operador] <segundo_número>")
         sys.exit()
     if len(sys.argv) == 3:
-        if not (1 < len(sys.argv[1]) > 8 ) or not ( 1 < len(sys.argv[2]) > 8):
-            print("Error. Los números binarios deben ser de 1 hasta a 8 bits.")
-        if sys.argv[1].replace("0","").replace("1","") != "":
-            print("Error. Por favor, introduzca el primer número binario de 1 hasta 8 bits (sólo 0 y 1) e inténtelo de nuevo")
-            sys.exit()
-        if sys.argv[2].replace("0","").replace("1","") != "":
-            print("Error. Por favor, introduzca un el segundo número binario de 1 hasta 8 bits (sólo 0 y 1) e inténtelo de nuevo.")
-            sys.exit()
-        return sys.argv[1], sys.argv[2]
-    else: # Entra cuando el usuario introduce un operando.
-        if not (1 < len(sys.argv[1]) > 8 ) or not ( 1 < len(sys.argv[2]) > 8):
+        if not (1 <= len(sys.argv[1]) <= 8 ) or not ( 1 <= len(sys.argv[2]) <= 8):
             print("Error. Los números binarios deben ser de 1 hasta 8 bits.")
             sys.exit()
         if sys.argv[1].replace("0","").replace("1","") != "":
-            print("Error. Por favor, introduzca el primer número binario de 1 hasta 8 bits (sólo 0 y 1) e inténtelo de nuevo")
+            print("Error. Por favor, introduzca el primer número binario de 1 hasta 8 bits (sólo 0 y 1) e inténtelo de nuevo.")
+            sys.exit()
+        if sys.argv[2].replace("0","").replace("1","") != "":
+            print("Error. Por favor, introduzca el segundo número binario de 1 hasta 8 bits (sólo 0 y 1) e inténtelo de nuevo.")
+            sys.exit()
+        return sys.argv[1].zfill(8), sys.argv[2].zfill(8)
+    else: # Entra cuando el usuario introduce un operador.
+        if not (1 <= len(sys.argv[1]) <= 8 ) or not ( 1 <= len(sys.argv[3]) <= 8):
+            print("Error. Los números binarios deben ser de 1 hasta 8 bits.")
+            sys.exit()
+        if sys.argv[1].replace("0","").replace("1","") != "":
+            print("Error. Por favor, introduzca el primer número binario de 1 hasta 8 bits (sólo 0 y 1) e inténtelo de nuevo.")
             sys.exit()
         if sys.argv[3].replace("0","").replace("1","") != "":
-            print("Error. Por favor, introduzca un el segundo número binario de 1 hasta 8 bits (sólo 0 y 1) e inténtelo de nuevo.")
+            print("Error. Por favor, introduzca el segundo número binario de 1 hasta 8 bits (sólo 0 y 1) e inténtelo de nuevo.")
             sys.exit()    
         return sys.argv[1].zfill(8), sys.argv[3].zfill(8)
 
@@ -71,7 +72,7 @@ def resta_binaria(binario1,binario2):
     y el inferior es 1. 
     """
     
-    while int(binario1,2) < int(binario2,2):
+    if int(binario1,2) < int(binario2,2):
         print("Error. Para restar, el primer número no puede ser más pequeño.")
         sys.exit()
     binario1 = list(map(int, binario1))
